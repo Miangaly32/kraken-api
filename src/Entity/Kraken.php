@@ -13,6 +13,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Kraken
 {
+
+    const MAX_TENTACLE = 8;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

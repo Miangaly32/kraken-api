@@ -120,14 +120,14 @@ class Tentacle
         return $this;
     }
 
-    public function getRelation(): ?Kraken
+    public function getKraken(): ?Kraken
     {
-        return $this->relation;
+        return $this->kraken;
     }
 
-    public function setRelation(?Kraken $relation): self
+    public function setKraken(?Kraken $kraken): self
     {
-        $this->relation = $relation;
+        $this->kraken = $kraken;
 
         return $this;
     }

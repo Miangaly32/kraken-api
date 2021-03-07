@@ -11,9 +11,13 @@ class TentacleService
 
     /**
      * Init tentacle
+     * 
+     * @param $tentacle Tentacle to init
+     * 
      */
     public function initTentacle($tentacle)
     {
+        $this->diceService->rollDices(6, 6);
         $tentacle->setPv($this->diceService->rollDices(6, 6));
         $tentacle->setStrength(10 + $this->diceService->rollDices(6, 6));
         $tentacle->setDex(10 + $this->diceService->rollDices(6, 6));

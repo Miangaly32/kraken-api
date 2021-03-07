@@ -17,13 +17,14 @@ class DiceService
      * @param int $nb 
      *      
      */
-    public function rollDices($dices, $faces, $result = 0, $nb = 0)
+    public function rollDices($dices, $faces, $result = 0, $nb = 1)
     {
-        if ($nb == $dices)
+        if ($nb == $dices) {
             return $result;
+        }
 
-        $result = rand(1, $faces) + $result;
+        $result =  rand(1, $faces) + $result;
 
-        $this->rollDices($dices, $faces, $result, $nb + 1);
+        return $this->rollDices($dices, $faces, $result, $nb + 1);
     }
 }

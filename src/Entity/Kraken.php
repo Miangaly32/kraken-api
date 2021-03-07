@@ -125,7 +125,7 @@ class Kraken
     {
         if (!$this->tentacles->contains($tentacle)) {
             $this->tentacles[] = $tentacle;
-            $tentacle->setRelation($this);
+            $tentacle->setKraken($this);
         }
 
         return $this;
@@ -135,8 +135,8 @@ class Kraken
     {
         if ($this->tentacles->removeElement($tentacle)) {
             // set the owning side to null (unless already changed)
-            if ($tentacle->getRelation() === $this) {
-                $tentacle->setRelation(null);
+            if ($tentacle->getKraken() === $this) {
+                $tentacle->setKraken(null);
             }
         }
 

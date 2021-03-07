@@ -9,6 +9,7 @@ use App\Service\TentacleService;
 use App\Form\Type\KrakenType;
 use App\Form\Type\TentacleType;
 use App\Repository\KrakenRepository;
+use App\Repository\TentacleRepository;
 use App\Service\KrakenService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,7 +56,7 @@ class ApiController extends AbstractController
             return $this->utils->getJsonResponse($this->utils->getFormErrors($form), Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->utils->getJsonResponse(["Everything ok"], Response::HTTP_OK);
+        return $this->utils->getJsonResponse(["Message" => "Everything ok"], Response::HTTP_OK);
     }
 
 
@@ -88,12 +89,33 @@ class ApiController extends AbstractController
                 $this->entityManager->persist($tentacle);
                 $this->entityManager->flush();
             } else {
-                return $this->utils->getJsonResponse("Not allowed to add new tentacle to this kraken", Response::HTTP_BAD_REQUEST);
+                return $this->utils->getJsonResponse(["Message" => "Not allowed to add new tentacle to this kraken"], Response::HTTP_BAD_REQUEST);
             }
         } else {
-            return $this->utils->getJsonResponse($this->utils->getFormErrors($form), Response::HTTP_BAD_REQUEST);
+            return $this->utils->getJsonResponse(["Errors" => $this->utils->getFormErrors($form)], Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->utils->getJsonResponse(["Everything ok"], Response::HTTP_OK);
+        return $this->utils->getJsonResponse(["Message" => "Everything ok"], Response::HTTP_OK);
+    }
+
+    /**
+     * Endpoint to remove kraken tentacle
+     * 
+     * @param $id Tentacle id to remove
+     * 
+     * @param $krakenRepository
+     * 
+     * @Route("/kraken/{id}/tentacle", name="remove_kraken_tentacle", methods={"DELETE"})
+     * 
+     */
+    public function removeKrakenTentacle(int $id, TentacleRepository $tentacleRepository)
+    {
+        $tentacle = $tentacleRepository->find($id);
+        if ($tentacle) {
+            $this->entityManager->remove($tentacle);
+            $this->entityManager->flush();
+            return $this->utils->getJsonResponse(["Message" => "Everything ok"], Response::HTTP_OK);
+        }
+        return $this->utils->getJsonResponse(["Message" => "Tentacle not found"], Response::HTTP_BAD_REQUEST);
     }
 }

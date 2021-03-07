@@ -3,8 +3,7 @@
 namespace App\Service;
 
 use Symfony\Component\Form\Form;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class Utils
 {
@@ -14,18 +13,14 @@ class Utils
      * 
      * @param array $data
      * 
-     * @return Response
+     * @param int $status
+     * 
+     * @return JsonResponse
      * 
      */
-    public function getJsonResponse($data, $status): Response
+    public function getJsonResponse($data, $status): JsonResponse
     {
-
-        $response = new Response();
-        $response->setContent(json_encode($data));
-        $response->setStatusCode($status);
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
+        return new JsonResponse($data, $status);
     }
 
 

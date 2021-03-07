@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Kraken;
 use App\Entity\Tentacle;
+use App\Entity\KrakenPower;
 use App\Service\Utils;
 use App\Service\TentacleService;
 use App\Form\Type\KrakenType;
@@ -117,5 +118,24 @@ class ApiController extends AbstractController
             return $this->utils->getJsonResponse(["Message" => "Everything ok"], Response::HTTP_OK);
         }
         return $this->utils->getJsonResponse(["Message" => "Tentacle not found"], Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Endpoint for add power to kraken
+     * 
+     * @param $kraken_id Kraken's id to add power
+     * 
+     * @param $power_id Power's id to add power
+     * 
+     * @param $request
+     * 
+     * @Route("/kraken/{kraken_id}/power/{power_id}", name="add_kraker_power", methods={"POST"})
+     */
+    public function addPower(int $kraken_id, int $power_id)
+    {
+        $kraken_power = $this->krakenService->createKrakenPower($kraken_id, $power_id);
+        $this->entityManager->persist($kraken_power);
+        $this->entityManager->flush();
+        return $this->utils->getJsonResponse(["Message" => "Everything ok"], Response::HTTP_OK);
     }
 }

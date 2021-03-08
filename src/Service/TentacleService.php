@@ -12,7 +12,7 @@ class TentacleService
     /**
      * Init tentacle
      * 
-     * @param $tentacle Tentacle to init
+     * @param Tentacle $tentacle Tentacle to init
      * 
      */
     public function initTentacle($tentacle)

@@ -37,7 +37,7 @@ class ApiController extends AbstractController
     /**
      * Endpoint to create kraken
      * 
-     * @param $request
+     * @param Request $request
      * 
      * @Route("/kraken", name="create_kraken", methods={"POST"})
      * 
@@ -64,11 +64,11 @@ class ApiController extends AbstractController
     /**
      * Endpoint to add kraken tentacle
      * 
-     * @param $id Kraken id
+     * @param int $id Kraken id
      * 
-     * @param $request
+     * @param Request $request
      * 
-     * @param $krakenRepository
+     * @param KrakenRepository $krakenRepository
      * 
      * @Route("/kraken/{id}/tentacle", name="add_kraken_tentacle", methods={"POST"})
      * 
@@ -102,9 +102,9 @@ class ApiController extends AbstractController
     /**
      * Endpoint to remove kraken tentacle
      * 
-     * @param $id Tentacle id to remove
+     * @param int $id Tentacle id to remove
      * 
-     * @param $krakenRepository
+     * @param TentacleRepository $tentacleRepository
      * 
      * @Route("/kraken/{id}/tentacle", name="remove_kraken_tentacle", methods={"DELETE"})
      * 
@@ -123,19 +123,36 @@ class ApiController extends AbstractController
     /**
      * Endpoint for add power to kraken
      * 
-     * @param $kraken_id Kraken's id to add power
+     * @param int $kraken_id Kraken's id to add power
      * 
-     * @param $power_id Power's id to add power
-     * 
-     * @param $request
+     * @param int $power_id Power's id to add
      * 
      * @Route("/kraken/{kraken_id}/power/{power_id}", name="add_kraker_power", methods={"POST"})
      */
-    public function addPower(int $kraken_id, int $power_id)
+    public function addPower(int $kraken_id, int $power_id, KrakenRepository $krakenRepository)
     {
-        $kraken_power = $this->krakenService->createKrakenPower($kraken_id, $power_id);
-        $this->entityManager->persist($kraken_power);
-        $this->entityManager->flush();
-        return $this->utils->getJsonResponse(["Message" => "Everything ok"], Response::HTTP_OK);
+        $kraken = $krakenRepository->find($kraken_id);
+        if ($this->krakenService->canAddKrakenPower($kraken)) {
+            $kraken_power = $this->krakenService->createKrakenPower($kraken, $power_id);
+            $this->entityManager->persist($kraken_power);
+            $this->entityManager->flush();
+            return $this->utils->getJsonResponse(["Message" => "Everything ok"], Response::HTTP_OK);
+        }
+        return $this->utils->getJsonResponse(["Message" => "Not authorized to add power"], Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Endpoint for kraken details
+     * 
+     * @param int $power_id Power's id to add power
+     * 
+     * @param Request $request
+     * 
+     * @Route("/kraken/{id}", name="get_kraken_details", methods={"GET"})
+     */
+    public function getKrakenDetails(int $id)
+    {
+        $krakenDetails = $this->krakenService->getKrakenDetails($id);
+        return $this->utils->getJsonResponse($krakenDetails, Response::HTTP_OK);
     }
 }

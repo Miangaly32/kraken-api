@@ -142,4 +142,15 @@ class Kraken
 
         return $this;
     }
+
+
+    public function toArray()
+    {
+        return [
+            'name'      => $this->name,
+            'age'       => $this->age,
+            'size'      => $this->size,
+            'weight'    => $this->weight
+        ];
+    }
 }

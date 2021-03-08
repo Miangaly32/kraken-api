@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\PowerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=PowerRepository::class)
+ * @UniqueEntity("name")
  */
 class Power
 {
@@ -18,7 +20,7 @@ class Power
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100) 
+     * @ORM\Column(type="string", length=100, unique=true) 
      */
     private $name;
 

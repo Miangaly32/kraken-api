@@ -32,7 +32,7 @@ class KrakenPower
      * @ORM\ManyToOne(targetEntity=Kraken::class, inversedBy="krakenPowers")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $Kraken;
+    private $kraken;
 
     public function getId(): ?int
     {
@@ -65,13 +65,21 @@ class KrakenPower
 
     public function getKraken(): ?Kraken
     {
-        return $this->Kraken;
+        return $this->kraken;
     }
 
-    public function setKraken(?Kraken $Kraken): self
+    public function setKraken(?Kraken $kraken): self
     {
-        $this->Kraken = $Kraken;
+        $this->kraken = $kraken;
 
         return $this;
+    }
+
+    public function toArray()
+    {
+        return [
+            'name'      => $this->power->getName(),
+            'maxUsage'  => $this->maxUsage
+        ];
     }
 }

@@ -131,4 +131,15 @@ class Tentacle
 
         return $this;
     }
+
+    public function toArray()
+    {
+        return [
+            'name'      => $this->name,
+            'pv'        => $this->pv,
+            'strength'  => $this->strength,
+            'con'       => $this->con,
+            'dex'       => $this->dex
+        ];
+    }
 }

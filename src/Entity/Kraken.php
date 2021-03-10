@@ -13,7 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Kraken
 {
-
     const MAX_TENTACLE = 8;
 
     /**
@@ -24,14 +23,14 @@ class Kraken
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100) 
+     * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank(
      * message = "The name can't be left blank")
      * )
      * @Assert\Length(
      *      min = 2,
      *      max = 100,
-     * ) 
+     * )
      */
     private $name;
 
@@ -146,11 +145,18 @@ class Kraken
 
     public function toArray()
     {
+        $tentacles = [];
+        foreach ($this->tentacles as $tentacle) {
+            $tentacles[] = $tentacle->toArray();
+        }
+
         return [
+            'id'        => $this->id,
             'name'      => $this->name,
             'age'       => $this->age,
             'size'      => $this->size,
-            'weight'    => $this->weight
+            'weight'    => $this->weight,
+            'tentacles' =>  $tentacles
         ];
     }
 }

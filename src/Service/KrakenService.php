@@ -101,4 +101,21 @@ class KrakenService
         }
         return $result;
     }
+
+    /**
+     * get kraken's powers as array
+     * 
+     * @param Kraken 
+     * 
+     * @return array
+     */
+    public function getPowers(Kraken $kraken)
+    {
+        $powers = $this->krakenPowerRepository->findBy(["kraken" => $kraken]);
+        $result = [];
+        foreach ($powers as $power) {
+            $result[] = $power->toArray();
+        }
+        return $result;
+    }
 }

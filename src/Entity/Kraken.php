@@ -25,7 +25,7 @@ class Kraken
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank(
-     * message = "The name can't be left blank")
+     * message = "Le nom du kraken est requis")
      * )
      * @Assert\Length(
      *      min = 2,
@@ -156,7 +156,7 @@ class Kraken
             'age'       => $this->age,
             'size'      => $this->size,
             'weight'    => $this->weight,
-            'tentacles' =>  $tentacles
+            'tentacles' => $tentacles
         ];
     }
 }

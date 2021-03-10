@@ -10,6 +10,7 @@ use App\Service\TentacleService;
 use App\Form\Type\KrakenType;
 use App\Form\Type\TentacleType;
 use App\Repository\KrakenRepository;
+use App\Repository\PowerRepository;
 use App\Repository\TentacleRepository;
 use App\Service\KrakenService;
 use Symfony\Component\HttpFoundation\Request;
@@ -163,5 +164,22 @@ class ApiController extends AbstractController
     {
         $krakenDetails = $this->krakenService->getKrakenDetails($id);
         return $this->utils->getJsonResponse($krakenDetails, Response::HTTP_OK);
+    }
+
+    /**
+     * Endpoint to get powers
+     *
+     * @param PowerRepository
+     * 
+     * @Route("/powers", name="get_powers", methods={"GET"})
+     */
+    public function getPowers(PowerRepository $powerRepository)
+    {
+        $powers = $powerRepository->findAll();
+        $result = [];
+        foreach ($powers as $power) {
+            $result[] = $power->toArray();
+        }
+        return $this->utils->getJsonResponse($result, Response::HTTP_OK);
     }
 }

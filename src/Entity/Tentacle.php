@@ -26,7 +26,7 @@ class Tentacle
      * @Assert\Length(
      *      min = 2,
      *      max = 100,
-     * ) 
+     * )
      */
     private $name;
 
@@ -135,6 +135,7 @@ class Tentacle
     public function toArray()
     {
         return [
+            'id'        => $this->id,
             'name'      => $this->name,
             'pv'        => $this->pv,
             'strength'  => $this->strength,

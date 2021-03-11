@@ -78,6 +78,7 @@ class KrakenPower
     public function toArray()
     {
         return [
+            'id'        => $this->id,
             'name'      => $this->power->getName(),
             'maxUsage'  => $this->maxUsage
         ];

@@ -20,7 +20,7 @@ class Power
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100, unique=true) 
+     * @ORM\Column(type="string", length=100, unique=true)
      */
     private $name;
 
@@ -44,5 +44,13 @@ class Power
         $this->name = $name;
 
         return $this;
+    }
+
+    public function toArray()
+    {
+        return [
+            'id'        => $this->id,
+            'name'      => $this->name
+        ];
     }
 }

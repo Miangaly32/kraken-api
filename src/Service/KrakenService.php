@@ -28,11 +28,11 @@ class KrakenService
 
     /**
      * Check the maximum of tentacle allowed for 1 kraken
-     * 
+     *
      * @param Kraken $kraken
-     * 
+     *
      * @return bool tentacle allowed to be added or not
-     * 
+     *
      */
     public function checkAddTentacle($kraken)
     {
@@ -41,11 +41,11 @@ class KrakenService
 
     /**
      * Create Kraken_power
-     * 
+     *
      * @param Kraken $kraken
-     * 
+     *
      * @param int $power_id
-     * 
+     *
      * @return KrakenPower
      */
     public function createKrakenPower($kraken, $power_id)
@@ -59,9 +59,9 @@ class KrakenService
 
     /**
      * Check can add power
-     * 
+     *
      * @param Kraken $kraken
-     * 
+     *
      * @return bool
      */
     public function canAddKrakenPower($kraken)
@@ -71,11 +71,11 @@ class KrakenService
 
         if ($krakenPowerNb == 0) {
             return true;
-        } else if ($krakenPowerNb == 1) {
+        } elseif ($krakenPowerNb == 1) {
             if ($tentacleNb >= 4) {
                 return true;
             }
-        } else if ($krakenPowerNb == 2) {
+        } elseif ($krakenPowerNb == 2) {
             if ($tentacleNb >= 8) {
                 return true;
             }
@@ -85,24 +85,37 @@ class KrakenService
 
     /**
      * Get kraken details
-     * 
+     *
      * @param int $id Kraken id
-     * 
+     *
      * @return array Kraken details
      */
     public function getKrakenDetails($id)
     {
         $kraken = $this->krakenRepository->find($id);
-        $tentacles = $kraken->getTentacles();
         $powers = $this->krakenPowerRepository->findBy(["kraken" => $kraken]);
         $result = $kraken->toArray();
-        foreach ($tentacles as $tentacle) {
-            $result["tentacles"][] = $tentacle->toArray();
-        }
+        $result["powers"] = [];
         foreach ($powers as $power) {
             $result["powers"][] = $power->toArray();
         }
+        return $result;
+    }
 
+    /**
+     * get kraken's powers as array
+     * 
+     * @param Kraken 
+     * 
+     * @return array
+     */
+    public function getPowers(Kraken $kraken)
+    {
+        $powers = $this->krakenPowerRepository->findBy(["kraken" => $kraken]);
+        $result = [];
+        foreach ($powers as $power) {
+            $result[] = $power->toArray();
+        }
         return $result;
     }
 }

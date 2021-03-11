@@ -146,7 +146,11 @@ class ApiController extends AbstractController
             $kraken_power = $this->krakenService->createKrakenPower($kraken, $power_id);
             $this->entityManager->persist($kraken_power);
             $this->entityManager->flush();
-            return $this->utils->getJsonResponse(["Message" => "Everything ok"], Response::HTTP_OK);
+
+            $kraken =  $kraken_power->getKraken();
+            $res =  $kraken->toArray();
+            $res["powers"] = $this->krakenService->getPowers($kraken);
+            return $this->utils->getJsonResponse(["Message" => "Everything ok", "kraken" => $res], Response::HTTP_OK);
         }
         return $this->utils->getJsonResponse(["Errors" => "Not authorized to add power"], Response::HTTP_BAD_REQUEST);
     }
@@ -170,7 +174,7 @@ class ApiController extends AbstractController
      * Endpoint to get powers
      *
      * @param PowerRepository
-     * 
+     *
      * @Route("/powers", name="get_powers", methods={"GET"})
      */
     public function getPowers(PowerRepository $powerRepository)

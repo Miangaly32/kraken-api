@@ -186,4 +186,24 @@ class ApiController extends AbstractController
         }
         return $this->utils->getJsonResponse($result, Response::HTTP_OK);
     }
+
+
+    /**
+     * Endpoint to get krakens
+     *
+     * @param KrakenRepository
+     *
+     * @Route("/krakens", name="get_krakens", methods={"GET"})
+     */
+    public function getKrakens(KrakenRepository $krakenRepository)
+    {
+        $krakens = $krakenRepository->findAll();
+        $result = [];
+        foreach ($krakens as $kraken) {
+            $res = $kraken->toArray();
+            $res["powers"] = $this->krakenService->getPowers($kraken);
+            $result[] = $res;
+        }
+        return $this->utils->getJsonResponse($result, Response::HTTP_OK);
+    }
 }
